@@ -1,0 +1,22 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "All rights reserved" # Want to make your mod open source? Check out https://choosealicense.com/!
+[[mods]]
+modId = "ibicf"
+version = "${version}"
+displayName = "I Belive I Can Fly"
+description = '''
+FLY
+'''
+[[dependencies.ibicf]]
+modId = "forge"
+mandatory = true # do you **need** this mod to be able to launch?
+versionRange = "[36,)" # This essentially means any forge >= 36
+ordering = "NONE" # Use this if you want your mod to be loaded specifically BEFORE or AFTER another mod
+side = "BOTH" # Specify where this mod is required: can be BOTH, CLIENT or SERVER
+[[dependencies.ibicf]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5,1.17)"
+ordering = "NONE"
+side = "BOTH"

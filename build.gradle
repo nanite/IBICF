@@ -1,0 +1,44 @@
+plugins {
+    id 'forgified-fabric-loom' version '0.6.78'
+    id 'maven-publish'
+    id "architectury-plugin" version "3.0-SNAPSHOT"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+loom {
+    silentMojangMappingsLicense()
+    mixinConfigs = [ "ibicf.mixins.json"]
+}
+
+architectury {
+	minecraft = project.minecraft_version
+	platformSetupLoomIde()
+	forge()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings minecraft.officialMojangMappings()
+    forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    def targetVersion = 8
+    if (JavaVersion.current().isJava9Compatible()) {
+        it.options.release = targetVersion
+    }
+}
