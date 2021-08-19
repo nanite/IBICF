@@ -1,19 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "[36,)"
-license = "All rights reserved" # Want to make your mod open source? Check out https://choosealicense.com/!
+license = "All Rights Reserved unless stated otherwise. Distribution permission is given to FeedTheBeast and CurseForge for use in modpacks"
 [[mods]]
 modId = "ibicf"
 version = "${version}"
-displayName = "I Belive I Can Fly"
-description = '''
-FLY
-'''
+displayName = "I Believe I Can Fly"
+description = "Change the cloud height"
 [[dependencies.ibicf]]
 modId = "forge"
-mandatory = true # do you **need** this mod to be able to launch?
-versionRange = "[36,)" # This essentially means any forge >= 36
-ordering = "NONE" # Use this if you want your mod to be loaded specifically BEFORE or AFTER another mod
-side = "BOTH" # Specify where this mod is required: can be BOTH, CLIENT or SERVER
+mandatory = true
+versionRange = "[36,)"
 [[dependencies.ibicf]]
 modId = "minecraft"
 mandatory = true

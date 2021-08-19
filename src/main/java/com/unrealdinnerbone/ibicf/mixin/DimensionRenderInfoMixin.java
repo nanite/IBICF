@@ -1,17 +1,16 @@
-package com.example.ibicf.mixin;
+package com.unrealdinnerbone.ibicf.mixin;
 
-import com.example.ibicf.IBICF;
-import net.minecraft.client.renderer.DimensionSpecialEffects;
+import com.unrealdinnerbone.ibicf.IBICF;
+import net.minecraft.client.world.DimensionRenderInfo;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(DimensionSpecialEffects.class)
-public class ExampleMixin {
+@Mixin(DimensionRenderInfo.class)
+public class DimensionRenderInfoMixin {
     @Shadow @Final private float cloudLevel;
 
     @Inject(at = @At("HEAD"), method = "getCloudHeight()F", cancellable = true)

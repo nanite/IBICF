@@ -1,13 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.example.ibicf.mixin",
+  "package": "com.unrealdinnerbone.ibicf.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "ExampleMixin",
-    "LevelMixin"
+    "DimensionRenderInfoMixin"
   ],
   "injectors": {
     "defaultRequire": 1
