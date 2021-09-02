@@ -143,9 +143,3 @@ if (ENV.CURSE_DEPLOY) {
         }
     }
 }
-
-
-//Changelog
-//Curse Info
-//println("Changelog: " + getGitChangelog())
-//println("Release Type: " + project.property("release_type"))

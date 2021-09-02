@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.unrealdinnerbone.ibicf.mixin",
+  "refmap": "ibicf.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
