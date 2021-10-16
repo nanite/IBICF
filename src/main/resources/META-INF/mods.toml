@@ -3,7 +3,7 @@ loaderVersion = "[36,)"
 license = "All Rights Reserved unless stated otherwise. Distribution permission is given to FeedTheBeast and CurseForge for use in modpacks"
 [[mods]]
 modId = "ibicf"
-version = "${version}"
+version= "${file.jarVersion}"
 displayName = "I Believe I Can Fly"
 description = "Change the cloud height"
 [[dependencies.ibicf]]
