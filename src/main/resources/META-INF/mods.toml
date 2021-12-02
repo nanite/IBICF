@@ -6,13 +6,3 @@ modId = "ibicf"
 version= "${file.jarVersion}"
 displayName = "I Believe I Can Fly"
 description = "Change the cloud height"
-[[dependencies.ibicf]]
-modId = "forge"
-mandatory = true
-versionRange = "[36,)"
-[[dependencies.ibicf]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.17,1.18)"
-ordering = "NONE"
-side = "BOTH"
