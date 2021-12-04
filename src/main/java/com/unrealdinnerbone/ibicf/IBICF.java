@@ -9,10 +9,10 @@ import net.minecraftforge.fml.config.ModConfig;
 public class IBICF {
 
     private static final ForgeConfigSpec.Builder SPEC = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec.DoubleValue cloud;
+    public static final ForgeConfigSpec.ConfigValue<Double> cloud;
 
     static {
-        cloud = SPEC.defineInRange("cloudLevel", 200.0, 0.0, 256.0);;
+        cloud = SPEC.define("cloudLevel", 200.0);;
     }
 
     public IBICF() {
