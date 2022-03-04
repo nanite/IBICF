@@ -1,7 +1,5 @@
 import net.minecraftforge.gradle.common.util.ModConfig
 
-import java.nio.file.Files
-
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
@@ -91,7 +89,7 @@ jar {
                 "Implementation-Vendor"   : "UnRealDinnerbone",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
         ])
-        attributes.put("MixinConfig", mixinJson)
+        if(mixinJson) attributes.put("MixinConfig", mixinJson)
     }
 }
 
