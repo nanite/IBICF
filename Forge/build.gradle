@@ -1,0 +1,112 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '6.0.+'
+    id 'net.darkhax.curseforgegradle' version '1.0.14'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+}
+
+archivesBaseName = "${mod_name}-forge-${minecraft_version}"
+
+Project commonProject = parent == rootProject ? parent.project("Common") : parent.project("IBICF-Common")
+
+mixin {
+    add commonProject.sourceSets.main, "${mod_id}.refmap.json"
+    config("${mod_id}.mixins.json")
+}
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            ideaModule "${parent.name}.${project.name}.main"
+            taskName 'Client'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                    source commonProject.sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            ideaModule "${parent.name}.${project.name}.main"
+            taskName 'Server'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                    source commonProject.sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly commonProject
+    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    implementation(("com.unrealdinnerbone:Trenzalore-Forge:${trenzalore_version}+mc${minecraft_version}"))
+}
+
+tasks.withType(JavaCompile) {
+    source(commonProject.sourceSets.main.allSource)
+}
+
+processResources {
+    from commonProject.sourceSets.main.resources
+
+    def buildProps = project.properties.clone()
+    buildProps.put('file', [jarVersion: project.version])
+    buildProps.put("version", project.version)
+    buildProps.put("trenzalore_version", parent.property("trenzalore_version"))
+    buildProps.put("minecraft_version", parent.property("minecraft_version"))
+    filesMatching("META-INF/mods.toml") {
+        expand buildProps
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            artifact jar
+        }
+    }
+    repositories {
+        if (ENV.NANITE_TOKEN) {
+            maven {
+                url "https://maven.nanite.dev/${SNAPSHOT ? "snapshots" : "releases"}"
+                credentials {
+                    username = "nanite"
+                    password = "${ENV.NANITE_TOKEN}"
+                }
+            }
+        }
+    }
+}
+
+task curseforgePublish(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+
+    apiToken = ENV.CURSE_TOKEN
+    def mainFile = upload(findProperty('curse_id'), jar)
+    mainFile.changelog = file("../CHANGELOG.md")
+    mainFile.releaseType = "beta"
+    mainFile.changelogType = "markdown"
+    mainFile.addJavaVersion("Java 17")
+}
+

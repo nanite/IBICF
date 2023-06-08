@@ -1,0 +1,89 @@
+plugins {
+    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'maven-publish'
+    id 'idea'
+    id 'net.darkhax.curseforgegradle' version '1.0.14'
+}
+
+Project commonProject = parent == rootProject ? parent.project("Common") : parent.project("IBICF-Common")
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modImplementation(("com.unrealdinnerbone:Trenzalore-Fabric:${trenzalore_version}+mc${minecraft_version}"))
+    implementation commonProject
+}
+
+loom {
+    mixin {
+        defaultRefmapName = "${mod_id}.refmap.json"
+    }
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            vmArg("-Dmixin.debug.export=true")
+            runDir("run_client")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            vmArg("-Dmixin.debug.export=true")
+            runDir("run_server")
+        }
+    }
+}
+
+
+processResources {
+    from commonProject.sourceSets.main.resources
+
+    def buildProps = project.properties.clone()
+    buildProps.put("version", project.version)
+    buildProps.put("trenzalore_version", parent.property("trenzalore_version"))
+    buildProps.put("minecraft_version", parent.property("minecraft_version"))
+    filesMatching("fabric.mod.json") {
+        expand buildProps
+    }
+}
+
+tasks.withType(JavaCompile) {
+    source(commonProject.sourceSets.main.allSource)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName + "-" + project.name
+            version project.version
+            from components.java
+        }
+    }
+
+    repositories {
+        if (ENV.NANITE_TOKEN) {
+            maven {
+                url "https://maven.nanite.dev/${SNAPSHOT ? "snapshots" : "releases"}"
+                credentials {
+                    username = "nanite"
+                    password = "${ENV.NANITE_TOKEN}"
+                }
+            }
+        }
+    }
+}
+
+task curseforgePublish(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+
+    apiToken = ENV.CURSE_TOKEN
+    def mainFile = upload(findProperty('curse_id'), remapJar)
+    mainFile.changelog = file("../CHANGELOG.md")
+    mainFile.releaseType = "beta"
+    mainFile.changelogType = "markdown"
+    mainFile.addJavaVersion("Java 17")
+}
