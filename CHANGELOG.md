@@ -1,3 +1,8 @@
+### 2.0.2
+
+- Updated Dependencies
+- Fixed Bugs
+
 ### 2.0.1
 
 - Fix Jar Names
