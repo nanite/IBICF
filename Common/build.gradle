@@ -4,6 +4,12 @@ plugins {
     id 'maven-publish'
 }
 
+apply {
+    from file("../gradle/scripts/maven.gradle")
+}
+
+archivesBaseName = "${project.property("mod_name")}-${project.name}"
+
 minecraft {
     version(minecraft_version)
 }
@@ -13,35 +19,3 @@ dependencies {
     implementation(("com.unrealdinnerbone:Trenzalore-Common:${trenzalore_version}+mc${minecraft_version}"))
 }
 
-processResources {
-
-    def buildProps = project.properties.clone()
-
-    filesMatching(['pack.mcmeta']) {
-
-        expand buildProps
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-            from components.java
-        }
-    }
-
-    repositories {
-        if (ENV.NANITE_TOKEN) {
-            maven {
-                url "https://maven.nanite.dev/${SNAPSHOT ? "snapshots" : "releases"}"
-                credentials {
-                    username = "nanite"
-                    password = "${ENV.NANITE_TOKEN}"
-                }
-            }
-        }
-    }
-}
