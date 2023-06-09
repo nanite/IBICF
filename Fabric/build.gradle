@@ -76,5 +76,6 @@ task curseforgePublish(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     mainFile.changelog = file("../CHANGELOG.md")
     mainFile.releaseType = "beta"
     mainFile.changelogType = "markdown"
+    mainFile.addRequirement("trenzalore")
     mainFile.addJavaVersion("Java 17")
 }
