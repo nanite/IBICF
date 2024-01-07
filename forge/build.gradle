@@ -1,0 +1,33 @@
+multiLoader.forge() {
+    forgeVersion.set("${forge_version}")
+}
+
+java.sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", project(":common").file("src/client/java")]
+        }
+        resources {
+            srcDirs = ["src/main/resources", project(":common").file("src/client/resources")]
+        }
+    }
+}
+
+
+publishing.publications.mavenJava.artifact jar
+
+repositories {
+    maven {
+        url "https://cursemaven.com"
+    }
+    maven {
+        url "https://maven.nanite.dev/releases"
+    }
+}
+
+
+dependencies {
+    implementation(fg.deobf("com.unrealdinnerbone:trenzalore-forge:${project.property("trenzalore_version")}+mc${project.property("minecraft_version")}")) {
+        transitive = true
+    }
+}

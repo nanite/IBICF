@@ -1,0 +1,33 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="All Rights Reserved unless stated otherwise. Distribution permission is given to FeedTheBeast and CurseForge for use in modpacks"
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="I Believe I Can Fly"
+logoFile="logo.png"
+credits=""
+authors="UnRealDinnerbone"
+description='''
+Change cloud height
+'''
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+required=true
+    versionRange="[1.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+required=true
+    versionRange="[${minecraft_version}]"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="trenzalore"
+required=true
+    versionRange="[${trenzalore_version},)"
+    ordering="NONE"
+    side="BOTH"
+[[mixins]]
+    config="${mod_id}.mixins.json"
