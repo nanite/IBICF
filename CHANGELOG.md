@@ -1,3 +1,3 @@
-### 3.0.0
+### 4.0.1
 
-- Update to Minecraft 1.20.1
+- Update to Minecraft 1.20.4
