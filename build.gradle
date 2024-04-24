@@ -1,12 +1,12 @@
 plugins {
-    id("dev.nanite.mlp") version("0.1.1")
+    id("dev.nanite.mlp") version("0.1.8")
     id("java-library")
     id("maven-publish")
     id("me.modmuss50.mod-publish-plugin") version "0.3.0"
 }
 
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 multiLoader.root() {
     minecraftVersion.set(project.property("minecraft_version"))
@@ -33,7 +33,7 @@ subprojects {
 
     sourceSets.main.resources.srcDir project.file('src/generated/resources')
 
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 
     base {
