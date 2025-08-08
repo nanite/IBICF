@@ -1,3 +1,3 @@
-### 6.0.0
+### 7.0.1
 
-- Update to Minecraft 1.21
+- Add way to disable clouds

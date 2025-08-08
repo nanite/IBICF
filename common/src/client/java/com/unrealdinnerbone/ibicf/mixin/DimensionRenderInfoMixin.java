@@ -16,7 +16,12 @@ public class DimensionRenderInfoMixin {
     @Inject(at = @At("HEAD"), method = "getCloudHeight()F", cancellable = true)
     private void init(CallbackInfoReturnable<Float> info) {
         if(!Float.isNaN(cloudLevel)) {
-            info.setReturnValue(IBICFConfig.CONFIG.get().cloudLevel());
+            IBICFConfig ibicfConfig = IBICFConfig.CONFIG.get();
+            if (!ibicfConfig.renderClouds()) {
+                info.setReturnValue(Float.NaN);
+                return;
+            }
+            info.setReturnValue(ibicfConfig.cloudLevel());
         }
     }
 
